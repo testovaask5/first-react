@@ -4,21 +4,58 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      counter: 0
+      inputValue: 'Init',
+      message: ''
     }
+    // this.submitHandler = this.submitHandler.bind(this)
+  }
+
+  submitHandler(event) {
+    event.preventDefault();
+    this.setState({
+      message: this.state.inputValue, 
+      inputValue: ''
+    })
+  }
+
+  inputHandler = (event) => {
+    this.setState({ inputValue: event.target.value })
   }
 
   render() {
     return (
-      <div>
-        {/* {this.props.name} */}
-        {this.state.counter}
-        <button onClick={() => {
-          this.setState({counter: this.state.counter + 1})
-        }}>Click</button>
-      </div>
+      <>      
+        <form onSubmit={(event) => this.submitHandler(event)}>
+          <input value={this.state.inputValue} onChange={this.inputHandler} type="text" />
+          <button type="submit">Submit</button>
+        </form>
+        <p>{this.state.message}</p>
+      </>
     )
   }
+  // render() {
+  //   console.log(this.props)
+  //   return (
+  //     <div>
+  //       <input onChange={(event) => {
+  //         this.setState((prevState) => {
+  //           return { 
+  //             value: event.target.value,
+  //           }
+  //         })
+  //       }} type="text" />
+  //       <p>{this.state.value.toUpperCase()}</p>
+  //       <p>{this.state.counter}</p>        
+  //       <button onClick={() => {
+  //         this.setState((prevState) => {
+  //           return {
+  //             counter: prevState.counter + 1
+  //           }
+  //         })
+  //       }}>Click</button>
+  //     </div>
+  //   )
+  // }
 }
 
 
