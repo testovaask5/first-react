@@ -11,6 +11,7 @@ export default class App extends React.Component {
   }
 
   submitHandler(event) {
+    console.log(this)
     event.preventDefault();
     this.setState({
       message: this.state.inputValue, 
