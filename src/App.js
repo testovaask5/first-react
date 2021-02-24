@@ -1,11 +1,14 @@
 import React from 'react'
+import Task from './components/Task';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       inputValue: 'Init',
-      message: ''
+      tasks: [{ text: 'Task 1', completed: false },
+              { text: 'Task 2', completed: true },
+              { text: 'Task 3', completed: true }]
     }
     // this.submitHandler = this.submitHandler.bind(this)
   }
@@ -13,9 +16,12 @@ export default class App extends React.Component {
   submitHandler(event) {
     console.log(this)
     event.preventDefault();
-    this.setState({
-      message: this.state.inputValue, 
-      inputValue: ''
+    if (this.state.inputValue !== '') this.setState((prevState) => {
+      return {
+        // tasks: [...prevState.tasks, <Task key={prevState.tasks.length} text={prevState.inputValue} />], 
+        tasks: [...prevState.tasks, { text: prevState.inputValue, completed: false }],
+        inputValue: ''
+      }
     })
   }
 
@@ -24,13 +30,19 @@ export default class App extends React.Component {
   }
 
   render() {
+    // const jsxArrayExample = [<li>One</li>, <li>Two</li>, <li>Three</li>]
     return (
-      <>      
+      <>
         <form onSubmit={(event) => this.submitHandler(event)}>
           <input value={this.state.inputValue} onChange={this.inputHandler} type="text" />
           <button type="submit">Submit</button>
         </form>
-        <p>{this.state.message}</p>
+        {/* <p>{this.state.message}</p> */}
+        <ul>
+          {this.state.tasks.map((task, index) => {
+            return <Task key={index} text={task.text} completed={task.completed} />
+          })}
+        </ul>
       </>
     )
   }
@@ -62,7 +74,7 @@ export default class App extends React.Component {
 
 // class TestClass {
 //   constructor(mes1, mes2) {
-       
+
 //   }
 
 //   method1 () {
