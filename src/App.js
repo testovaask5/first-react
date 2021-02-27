@@ -6,7 +6,7 @@ export default class App extends React.Component {
     super(props)
     this.state = {
       inputValue: 'Init',
-      tasks: [{ text: 'Task 1', completed: false },
+      tasks: [{ text: 'Task 1', completed: false, someprop: {a: 1} },
               { text: 'Task 2', completed: true },
               { text: 'Task 3', completed: true }]
     }
@@ -29,18 +29,37 @@ export default class App extends React.Component {
     this.setState({ inputValue: event.target.value })
   }
 
+  toggleTask = (index) => {
+    this.setState((prevState) => {
+      // const newTasks = prevState.tasks.map((task) => {
+      //   return {...task}
+      // })
+      // newTasks[index].completed = !newTasks[index].completed
+      const newTasks = [...prevState.tasks]
+      const newTask = {...newTasks[index]}
+      newTask.completed = !newTask.completed
+      newTasks[index] = newTask
+      // newTasks[index] = {...newTasks[index], completed: !newTasks[index].completed}
+      return {
+        tasks: newTasks
+      }
+    })
+  }
+
   render() {
-    // const jsxArrayExample = [<li>One</li>, <li>Two</li>, <li>Three</li>]
     return (
       <>
         <form onSubmit={(event) => this.submitHandler(event)}>
           <input value={this.state.inputValue} onChange={this.inputHandler} type="text" />
           <button type="submit">Submit</button>
         </form>
-        {/* <p>{this.state.message}</p> */}
         <ul>
           {this.state.tasks.map((task, index) => {
-            return <Task key={index} text={task.text} completed={task.completed} />
+            return <Task key={index} 
+              index={index}
+              text={task.text} 
+              completed={task.completed} 
+              toggleTask={this.toggleTask} />
           })}
         </ul>
       </>

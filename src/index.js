@@ -4,6 +4,8 @@ import App from "./App";
 // import "./test";
 
 ReactDOM.render(
-  <App name="AppComponent" desc="Some info" />,
+  <React.StrictMode>
+    <App name="AppComponent" desc="Some info" />
+  </React.StrictMode>,
   document.getElementById('root')
 );
