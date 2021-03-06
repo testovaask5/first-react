@@ -1,166 +1,32 @@
-import React from 'react'
-import Task from './components/Task';
+import React, { useState } from 'react'
+import NewTask from './components/NewTask';
+import TasksList from './components/TasksList';
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      inputValue: 'Init',
-      tasks: [{ text: 'Task 1', completed: false, someprop: {a: 1} },
-              { text: 'Task 2', completed: true },
-              { text: 'Task 3', completed: true }]
-    }
-    // this.submitHandler = this.submitHandler.bind(this)
-  }
+export default function App() {
+  const initTasks = [{ text: 'Task 1', completed: false },
+    { text: 'Task 2', completed: true },
+    { text: 'Task 3', completed: true }];
 
-  submitHandler(event) {
-    console.log(this)
-    event.preventDefault();
-    if (this.state.inputValue !== '') this.setState((prevState) => {
-      return {
-        // tasks: [...prevState.tasks, <Task key={prevState.tasks.length} text={prevState.inputValue} />], 
-        tasks: [...prevState.tasks, { text: prevState.inputValue, completed: false }],
-        inputValue: ''
+  const [tasks, setTasks] = useState(initTasks)
+
+  const toggleTask = (index) => {    
+      const newTasks = [...tasks]
+      newTasks[index] = {
+        ...newTasks[index], 
+        completed: !newTasks[index].completed
       }
-    })
+      setTasks(newTasks)
   }
 
-  inputHandler = (event) => {
-    this.setState({ inputValue: event.target.value })
+  const addNewTask = (newTask) => {
+    setTasks([...tasks, newTask])
   }
-
-  toggleTask = (index) => {
-    this.setState((prevState) => {
-      // const newTasks = prevState.tasks.map((task) => {
-      //   return {...task}
-      // })
-      // newTasks[index].completed = !newTasks[index].completed
-      const newTasks = [...prevState.tasks]
-      const newTask = {...newTasks[index]}
-      newTask.completed = !newTask.completed
-      newTasks[index] = newTask
-      // newTasks[index] = {...newTasks[index], completed: !newTasks[index].completed}
-      return {
-        tasks: newTasks
-      }
-    })
-  }
-
-  render() {
-    return (
-      <>
-        <form onSubmit={(event) => this.submitHandler(event)}>
-          <input value={this.state.inputValue} onChange={this.inputHandler} type="text" />
-          <button type="submit">Submit</button>
-        </form>
-        <ul>
-          {this.state.tasks.map((task, index) => {
-            return <Task key={index} 
-              index={index}
-              text={task.text} 
-              completed={task.completed} 
-              toggleTask={this.toggleTask} />
-          })}
-        </ul>
-      </>
-    )
-  }
-  // render() {
-  //   console.log(this.props)
-  //   return (
-  //     <div>
-  //       <input onChange={(event) => {
-  //         this.setState((prevState) => {
-  //           return { 
-  //             value: event.target.value,
-  //           }
-  //         })
-  //       }} type="text" />
-  //       <p>{this.state.value.toUpperCase()}</p>
-  //       <p>{this.state.counter}</p>        
-  //       <button onClick={() => {
-  //         this.setState((prevState) => {
-  //           return {
-  //             counter: prevState.counter + 1
-  //           }
-  //         })
-  //       }}>Click</button>
-  //     </div>
-  //   )
-  // }
+  return (
+    <div style={
+      { maxWidth: 600, minWidth: 300, margin: "0 auto" }
+    }>
+      <NewTask addNewTask={addNewTask} />
+      <TasksList tasks={tasks} toggleTask={toggleTask} />
+    </div>
+  )
 }
-
-
-// class TestClass {
-//   constructor(mes1, mes2) {
-
-//   }
-
-//   method1 () {
-//     console.log('method1')
-//   }
-// }
-
-// class ChildClass extends TestClass {
-//   constructor(mes1, mes2) {
-//     super();    
-//     this.mes1 = mes1
-//     this.mes2 = mes2 
-//   }
-
-//   method2 () {
-//     console.log(this.mes1 + ' ' + this.mes2)
-//   }
-// }
-// class ChildClass2 extends ChildClass {
-//   constructor(mes1, mes2) {
-//     super();    
-//     this.mes1 = mes1
-//     this.mes2 = mes2 
-//   }
-
-//   method2 () {
-//     console.log(this.mes1 + ' ' + this.mes2)
-//   }
-// }
-
-// const testObj = new TestClass()
-// testObj.method1()
-// const childObj = new ChildClass('Hello', 'World')
-// childObj.method1()
-
-// function ChildClass2 (mes1, mes2) {
-//   this.mes1 = mes1
-//   this.mes2 = mes2 
-// }
-// ChildClass2.prototype.method1 = function () {
-//   console.log(this.mes1 + ' ' + this.mes2)
-// }
-
-// ChildClass2.__proto__ = ChildClass.prototype
-
-// const childObj2 = new ChildClass2('Hello', 'World')
-
-
-
-
-
-
-// import { useState } from "react";
-
-// export default function App(props) {
-//   const [counter, setCounter] = useState(0);
-
-//   console.log('Render')
-
-//   function click() {
-//     setCounter(counter + 1)
-//   }
-
-//   return (
-//     <div>
-//       {counter}
-//       <button onClick={click}>Click</button>
-//     </div>
-//   )
-// }
