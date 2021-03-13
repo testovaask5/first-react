@@ -19,14 +19,15 @@ export default function Task(props) {
       <ListItem 
         className={classes.listitem}
         button
-        onClick={() => props.toggleTask(props.index)}>
+        onClick={() => props.toggleTask(props.id)}>
           <ListItemText 
             style={{ textDecoration: props.completed ? 
             "line-through" : "none" }} 
             primary={props.text} 
           />
       </ListItem>
-      <Button variant="contained" color="secondary">
+      <Button onClick={() => props.removeTask(props.id)}
+        variant="contained" color="secondary">
         Remove
       </Button>    
     </div>

@@ -22,9 +22,20 @@ export default function NewTask({ addNewTask }) {
       text: inputValue,
       completed: false
     }
-    addNewTask(newTask)
-    setInputValue('')
+    fetch('/api/task', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newTask)
+    }).then(response => response.json())
+    .then(response => {
+      console.log(response)
+      addNewTask(response)
+      setInputValue('')
+    })
   }
+  
   return (
     <form className={classes.root} onSubmit={submitHandler}>
       <TextField 
